@@ -1,6 +1,6 @@
 package com.auction.auction.controller;
 
-import com.auction.auction.model.Bid;
+import com.auction.auction.dto.WinnerBid;
 import com.auction.auction.model.Product;
 import com.auction.auction.service.AuctionService;
 import jakarta.annotation.security.RolesAllowed;
@@ -33,8 +33,7 @@ public class SellerController {
     }
 
     @GetMapping("/winner/{auctionId}")
-    public Bid getWinner(@PathVariable UUID auctionId) {
-        //add new bid
-        return new Bid();
+    public WinnerBid getWinner(@PathVariable UUID auctionId) throws IOException {
+        return auctionService.getAuctionWinner(auctionId);
     }
 }
