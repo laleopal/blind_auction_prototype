@@ -1,15 +1,14 @@
 package com.auction.auction.controller;
 
+import com.auction.auction.dto.ProductForBuyerProjection;
 import com.auction.auction.model.Bid;
-import com.auction.auction.model.Product;
+import com.auction.auction.service.AuctionService;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,10 +17,12 @@ import java.util.UUID;
 @RolesAllowed("BUYER")
 @RequiredArgsConstructor
 public class BuyerController {
+
+    private final AuctionService auctionService;
+
     @GetMapping
-    public List<Product> getAvailableProducts() {
-        //get all open auctions
-        return new ArrayList<>();
+    public List<ProductForBuyerProjection> getAvailableProducts() {
+        return auctionService.getAvailableProducts();
     }
 
     @Transactional
