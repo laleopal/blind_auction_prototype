@@ -56,6 +56,18 @@ public class AuctionService {
         return productRepository.findOpenAuctions();
     }
 
+    public void placeBid(UUID id, Bid bid) throws IOException {
+        Product product = getProduct(id);
+
+        if (!isAuctionClosed(product) && !isInvalidBid(bid, product)) {
+            bid.setProduct(product);
+            bid.setUserToken("user");
+            bidRepository.save(bid);
+        } else {
+            throw new IOException("auction closed or invalid bid");
+        }
+    }
+
     private Product getProduct(UUID id) {
         return productRepository.findById(id).orElseThrow();
     }
@@ -67,5 +79,9 @@ public class AuctionService {
 
     private boolean isAuctionClosed(Product product) {
         return Status.CLOSED.equals(product.getStatus());
+    }
+
+    private boolean isInvalidBid(Bid bid, Product product) {
+        return bid.getBid() < product.getMinimalBid();
     }
 }
