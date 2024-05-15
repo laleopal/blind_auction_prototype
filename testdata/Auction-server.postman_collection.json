@@ -1,0 +1,209 @@
+{
+	"info": {
+		"_postman_id": "efec8017-0d2d-49e5-8c7a-0cec62b2b8dc",
+		"name": "Auction server",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34860941"
+	},
+	"item": [
+		{
+			"name": "seller",
+			"item": [
+				{
+					"name": "POST start auction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"vase\",\r\n    \"minimalBid\": 100\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auctions/seller/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auctions",
+								"seller",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET winner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auctions/seller/winner/80f71006-cc53-49fc-a10a-41c04887b7de",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auctions",
+								"seller",
+								"winner",
+								"80f71006-cc53-49fc-a10a-41c04887b7de"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH end auction",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auctions/seller/end/58189951-ccd5-4c4f-8fe2-489bf3106b14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auctions",
+								"seller",
+								"end",
+								"58189951-ccd5-4c4f-8fe2-489bf3106b14"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJVc2VyX3NlcnZlciIsInN1YiI6InNlbGxlciIsImV4cCI6MTcxNTc4NjIyMSwiaWF0IjoxNzE1Nzc1NDIxLCJzY29wZSI6IlNFTExFUiJ9.Ai71uCZYlm3aMuHqN77B-pHWzGfq9du3PhQHzEs44MMVmdAwaLY4_q3m4hZXfSqZIiwhvkpSA6AkV1ZY9iJ4bdTVTtwTih-B0EVuT5KpV1DwhhO4WuWp0_B0rx6tFiDIgimc0ZbY2YoscSIU6IrFjH67vqNtKE5FjEhj-Bn6KlWSFOcLqNy8ulY82cF4Swpvh2IeaF7L5ITRg57UwALSfRpmDcpE9qv62pvLdmhA2qoOHoiY56Vmq4m1stD_E7ZgwBtjN4qfqg88ef4GMVNaCi9OAUhHPLaXnUCFgPK7qErSUvJFPGkd0KPBdqFpHHEVkZCVn2dgr43Ppr23asVvVQ",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "buyer",
+			"item": [
+				{
+					"name": "GET open auctions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/auctions/buyer",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auctions",
+								"buyer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST place bid",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bid\": 300\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/auctions/buyer/bid/9474f346-9264-486a-8e9d-7d2125e0e6e0",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"auctions",
+								"buyer",
+								"bid",
+								"9474f346-9264-486a-8e9d-7d2125e0e6e0"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJVc2VyX3NlcnZlciIsInN1YiI6ImJ1eWVyIiwiZXhwIjoxNzE1Nzg2MjI0LCJpYXQiOjE3MTU3NzU0MjQsInNjb3BlIjoiQlVZRVIifQ.NRZ4OTbaCtckN0zksBz8FEcxrNVSj2-NQZ4Zq1wQWd8HswPLEF75uxZbSgBTwZb51JlnUFqxctXloA8RlFJv7-t585v7RYEmE1_yI4v3-0Q3P9tD07gMSL2J3BY6bp1mpMDqVhCKOr_V9wQfKol-LTwGiyJK6Lpt1703OWWHQ_9aqQXqkfL3OJypJUI9FyMDd1s2VmrM8VLdTMrUQBU8EZq-eflt28yBb5hxbUNzRylj6VpsZZ4F1_Q4_oeSdgFZtbH6CkzZaBckpHpZE6ZFAPu1tyc37umo1YGZ_MWqdaX5Sy6VX-P1QKEouuKm2W7OUqeIcS2ZbSy_-M2eRGTbpA",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	]
+}
