@@ -2,6 +2,7 @@ package com.auction.users.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "auction_user")
+@NoArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -52,5 +54,16 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 }
