@@ -8,10 +8,14 @@ import com.auction.auction.model.Status;
 import com.auction.auction.repository.BidRepository;
 import com.auction.auction.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -20,9 +24,10 @@ public class AuctionService {
 
     private final ProductRepository productRepository;
     private final BidRepository bidRepository;
+    private final JwtService jwtService;
 
     public Product registerProduct(Product product) {
-        product.setSeller("seller");
+        product.setSeller(getAuthenticatedUser());
         product.setStatus(Status.OPEN);
         productRepository.save(product);
         return new Product(product.getId());
@@ -44,7 +49,7 @@ public class AuctionService {
             Bid winner = bidRepository.getWinner(product.getId()).orElseThrow();
             return new WinnerBid(
                     winner.getId(),
-                    "winner",
+                    jwtService.extractSubject(winner.getUserToken()),
                     winner.getBid()
             );
         } else {
@@ -61,7 +66,7 @@ public class AuctionService {
 
         if (!isAuctionClosed(product) && !isInvalidBid(bid, product)) {
             bid.setProduct(product);
-            bid.setUserToken("user");
+            bid.setUserToken(getAuthenticatedUser());
             bidRepository.save(bid);
         } else {
             throw new IOException("auction closed or invalid bid");
@@ -73,8 +78,7 @@ public class AuctionService {
     }
 
     private boolean isSameSeller (Product product) {
-        //compare sellers
-        return true;
+        return Objects.equals(extractUsername(product.getSeller()), extractUsername(getAuthenticatedUser()));
     }
 
     private boolean isAuctionClosed(Product product) {
@@ -83,5 +87,19 @@ public class AuctionService {
 
     private boolean isInvalidBid(Bid bid, Product product) {
         return bid.getBid() < product.getMinimalBid();
+    }
+
+    private String getAuthenticatedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
+            return ((Jwt) authentication.getPrincipal()).getTokenValue();
+        }
+
+        return null;
+    }
+
+    private String extractUsername(String token) {
+        return jwtService.extractSubject(token);
     }
 }
