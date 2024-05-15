@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.UUID;
 
 @RestController
@@ -28,12 +27,12 @@ public class SellerController {
 
     @Transactional
     @PatchMapping("/end/{auctionId}")
-    public void endAuction(@PathVariable UUID auctionId) throws IOException {
+    public void endAuction(@PathVariable UUID auctionId) {
         auctionService.endAuction(auctionId);
     }
 
     @GetMapping("/winner/{auctionId}")
-    public WinnerBid getWinner(@PathVariable UUID auctionId) throws IOException {
+    public WinnerBid getWinner(@PathVariable UUID auctionId) {
         return auctionService.getAuctionWinner(auctionId);
     }
 }

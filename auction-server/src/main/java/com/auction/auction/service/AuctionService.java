@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -33,17 +32,17 @@ public class AuctionService {
         return new Product(product.getId());
     }
 
-    public void endAuction(UUID id) throws IOException {
+    public void endAuction(UUID id)  {
         Product product = getProduct(id);
         if (isSameSeller(product) && !isAuctionClosed(product)) {
             product.setStatus(Status.CLOSED);
             productRepository.save(product);
         } else {
-            throw new IOException("not authorized or incorrect auction status");
+            throw new RuntimeException("not authorized or incorrect auction status");
         }
     }
 
-    public WinnerBid getAuctionWinner(UUID id) throws IOException {
+    public WinnerBid getAuctionWinner(UUID id)  {
         Product product = getProduct(id);
         if (isSameSeller(product) && isAuctionClosed(product)) {
             Bid winner = bidRepository.getWinner(product.getId()).orElseThrow();
@@ -53,7 +52,7 @@ public class AuctionService {
                     winner.getBid()
             );
         } else {
-            throw new IOException("not authorized or incorrect auction status");
+            throw new RuntimeException("not authorized or incorrect auction status");
         }
     }
 
@@ -61,7 +60,7 @@ public class AuctionService {
         return productRepository.findOpenAuctions();
     }
 
-    public void placeBid(UUID id, Bid bid) throws IOException {
+    public void placeBid(UUID id, Bid bid) {
         Product product = getProduct(id);
 
         if (!isAuctionClosed(product) && !isInvalidBid(bid, product)) {
@@ -69,7 +68,7 @@ public class AuctionService {
             bid.setUserToken(getAuthenticatedUser());
             bidRepository.save(bid);
         } else {
-            throw new IOException("auction closed or invalid bid");
+            throw new RuntimeException("auction closed or invalid bid");
         }
     }
 

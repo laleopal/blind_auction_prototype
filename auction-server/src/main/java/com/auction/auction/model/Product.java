@@ -46,4 +46,11 @@ public class Product {
     public Product(UUID id) {
         this.id = id;
     }
+
+    public Product(String name, UUID id, Long minimalBid, Status status) {
+        this.name = name;
+        this.id = id;
+        this.minimalBid = minimalBid;
+        this.status = status;
+    }
 }

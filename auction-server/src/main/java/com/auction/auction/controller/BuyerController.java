@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +27,7 @@ public class BuyerController {
 
     @Transactional
     @PostMapping("/bid/{auctionId}")
-    public void placeBid(@PathVariable UUID auctionId, @Valid @RequestBody Bid bid) throws IOException {
+    public void placeBid(@PathVariable UUID auctionId, @Valid @RequestBody Bid bid) {
         auctionService.placeBid(auctionId, bid);
     }
 }
